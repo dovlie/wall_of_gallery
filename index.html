@@ -7,21 +7,22 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="photo-stack photo-stack-center">
+  <!--photo start-->
+  <div class="photo-stack" id="photo_{{index}}">
     <div class="photo-stack-img">
-      <img src="./images/1.jpg">
+      <img src="./images/{{src}}">
     </div>
     <div class="photo-stack-content">
       <div class="photo-stack-title">
-        <h2>this is a title</h2>
+        <h2>{{title}}</h2>
       </div>
       <div class="photo-stack-desc">
-        <p>this is a description</p>
+        <p>{{desc}}</p>
       </div>
     </div>
   </div>
 </div>
-
+  <!--photo end-->
 </body>
 <script src="js/data.js"></script>
 <script src="js/main.js"></script>

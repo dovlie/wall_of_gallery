@@ -14,14 +14,19 @@ function g( string ) {
   var template = g(".wrap")[0].innerHTML;// 获取模板字符串
   var html = [];//  生成的HTML数组
   var element;//  根据模板生成的元素
+  var nav = [];// 控制器模板
+  var controllers;//  控制器
   for (var s in data){
     element = template.replace(/\{\{index\}\}/ig, s)
                            .replace(/\{\{src\}\}/ig, data[s].fileName)
                            .replace(/\{\{title\}\}/ig, data[s].title)
                            .replace(/\{\{desc\}\}/ig, data[s].desc)
+    controllers = '<span class="nav-control" onclick="turnPhoto('+ s +')"></span>'
     html.push(element)
+    nav.push(controllers)
   }
   g(".wrap")[0].innerHTML = html.join('')
+  g('.nav')[0].innerHTML = nav.join('')
   positionResort(getRandom([0,html.length-1]))
 })()
 
@@ -32,20 +37,27 @@ function g( string ) {
 function positionResort( index ){
   var container = g(".wrap")[0];
   var _elements = g('.photo-stack')
+  var controllers = g('.nav-control')// 控制器
   var elements = [];//  图片数组对象
 
   for (var i = 0; i < _elements.length; i++){
     //  去除已有的居中类名、翻转类名   /\s*photo-stack-center\s*/  同时去除多余的空格
     _elements[i].className = _elements[i].className.replace(/\s*photo-stack-center\s*/,' ')
                                                    .replace(/\s*photo-stack-back\s*/,' ')
+    //  清除控制器类名
+    controllers[i].className = controllers[i].className.replace(/\s*current-control\s*/,' ')
+                                                          .replace(/\s*current-control-back\s*/,' ')
     elements.push(_elements[i])
-
   }
   //  选定居中的图片
   elements[index].className += ' photo-stack-center'
   //  重置中心图片位置
   elements[index].style.left = '50%';
   elements[index].style.top = '50%';
+  //  重置中心图片角度
+  elements[index].style.transform = ''
+  //  控制器切换
+  controllers[index].className += ' current-control'
 
   //  元素的宽度和高度
   var photoWidth = elements[0].offsetWidth,
@@ -73,6 +85,8 @@ function positionResort( index ){
       elements[j].style.left = getRandom(rightPosition.left) + 'px'
       elements[j].style.top = getRandom(rightPosition.top) + 'px'
     }
+    //  所有的元素角度随机度数为-35°到35°
+    elements[j].style.transform = 'rotate('+ getRandom([-35,35]) +'deg)'
   }
 }
 
@@ -93,14 +107,17 @@ function getRandom( array ) {
  */
 function turnPhoto( index ) {
   var _elements = g('.photo-stack')
+  var controllers = g('.nav-control')
 
   //  判断是否是来自居中图片的点击
   if (/\s*photo-stack-center\s*/.test(_elements[index].className)){
     if (/\s*photo-stack-back\s*/.test(_elements[index].className)){// 已经反面状态
       _elements[index].className = _elements[index].className.replace(/\s*photo-stack-back\s*/,' ')
+      controllers[index].className = controllers[index].className.replace(/\s*current-control-back\s*/,' ')
       return
     }
     _elements[index].className += ' photo-stack-back'
+    controllers[index].className += ' current-control-back'
   }else {// 否则对图片进行居中并重新排布位置
     positionResort(index)
   }

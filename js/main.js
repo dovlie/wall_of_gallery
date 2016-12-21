@@ -35,12 +35,17 @@ function positionResort( index ){
   var elements = [];//  图片数组对象
 
   for (var i = 0; i < _elements.length; i++){
-    //  去除已有的居中类名   /\s*photo-stack-center\s*/  同时去除多余的空格
-    _elements.className = _elements[i].className.replace(/\s*photo-stack-center\s*/,' ')
+    //  去除已有的居中类名、翻转类名   /\s*photo-stack-center\s*/  同时去除多余的空格
+    _elements[i].className = _elements[i].className.replace(/\s*photo-stack-center\s*/,' ')
+                                                   .replace(/\s*photo-stack-back\s*/,' ')
     elements.push(_elements[i])
+
   }
   //  选定居中的图片
   elements[index].className += ' photo-stack-center'
+  //  重置中心图片位置
+  elements[index].style.left = '50%';
+  elements[index].style.top = '50%';
 
   //  元素的宽度和高度
   var photoWidth = elements[0].offsetWidth,
@@ -81,4 +86,22 @@ function getRandom( array ) {
   var max = Math.max(array[0],array[1])//  获取数组中较大值
 
   return Math.ceil(Math.random()*(max-min) + min)
+}
+/**
+ * 根据被点击的图片来确定是翻转图片还是进行居中排布
+ * @param index 被点击图片的索引
+ */
+function turnPhoto( index ) {
+  var _elements = g('.photo-stack')
+
+  //  判断是否是来自居中图片的点击
+  if (/\s*photo-stack-center\s*/.test(_elements[index].className)){
+    if (/\s*photo-stack-back\s*/.test(_elements[index].className)){// 已经反面状态
+      _elements[index].className = _elements[index].className.replace(/\s*photo-stack-back\s*/,' ')
+      return
+    }
+    _elements[index].className += ' photo-stack-back'
+  }else {// 否则对图片进行居中并重新排布位置
+    positionResort(index)
+  }
 }

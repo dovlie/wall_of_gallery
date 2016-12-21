@@ -67,11 +67,11 @@ function positionResort( index ){
   //  左边位置限定
   var leftPosition = {
     left: [0 - photoWidth/2, wrapWidth/2 - photoWidth/2*3],//  [最小值,最大值]
-    top: [0 - photoHeight/2, wrapHeight + photoHeight/2]
+    top: [0 - photoHeight/2, wrapHeight - photoHeight/2]
   }
   //  右边位置限定
   var rightPosition = {
-    left: [wrapWidth/2 + photoWidth/2, wrapWidth + photoWidth/2],//  [最小值,最大值]
+    left: [wrapWidth/2 + photoWidth/2, wrapWidth - photoWidth/2],//  [最小值,最大值]
     top: leftPosition.top,//  与左半部分高度一致
   }
   //  中间上边部分的两边特殊位置,待定

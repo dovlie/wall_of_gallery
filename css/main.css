@@ -38,11 +38,8 @@ html,body {
   perspective: 1800px;
 }
 .photo-stack {
-  box-sizing: border-box;
   width: 320px;
   height: 360px;
-  padding: 40px;
-  background: #fff;
   color: #a7a0a2;
   position: absolute;
   z-index: 1;
@@ -51,16 +48,6 @@ html,body {
   -ms-transition: all .6s ease-in-out ;
   -o-transition: all .6s ease-in-out ;
   transition: all .6s ease-in-out ;
-  /*  开启3D变形  */
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-  /*  使元素翻转后隐藏  */
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  -ms-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 .photo-stack::after {
   content: '';
@@ -87,6 +74,28 @@ html,body {
   transition: opacity,visibility .6s ease-in-out ;
   opacity: 0;
   visibility: hidden;
+}
+.photo-stack-container {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+  background: #fff;
+  -webkit-transition: all .6s ease-in-out;
+  -moz-transition: all .6s ease-in-out ;
+  -ms-transition: all .6s ease-in-out ;
+  -o-transition: all .6s ease-in-out ;
+  transition: all .6s ease-in-out ;
+  /*  开启3D变形  */
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  /*  使元素翻转后隐藏  */
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 .photo-stack-img img {
   display: block;/* 去除内联元素的间隙 */
@@ -120,7 +129,7 @@ html,body {
   margin: -180px 0 0 -160px;
   z-index: 11;
 }
-.photo-stack-back {
+.photo-stack-back .photo-stack-container{
   -webkit-transform-origin: 0 50% 0;
   -moz-transform-origin: 0 50% 0;
   -ms-transform-origin: 0 50% 0;

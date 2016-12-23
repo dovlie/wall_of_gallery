@@ -55,6 +55,9 @@ function positionResort( index ){
   elements[index].style.left = '';
   elements[index].style.top = '';
   //  重置中心图片角度
+  elements[index].style.MozTransform = ''
+  elements[index].style.WebkitTransform = ''
+  elements[index].style.msTransform = ''
   elements[index].style.transform = ''
   //  控制器切换
   controllers[index].className += ' current-control'
@@ -86,6 +89,9 @@ function positionResort( index ){
       elements[j].style.top = getRandom(rightPosition.top) + 'px'
     }
     //  所有的元素角度随机度数为-35°到35°
+    elements[j].style.MozTransform = 'rotate('+ getRandom([-35,35]) +'deg)'
+    elements[j].style.WebkitTransform = 'rotate('+ getRandom([-35,35]) +'deg)'
+    elements[j].style.msTransform = 'rotate('+ getRandom([-35,35]) +'deg)'
     elements[j].style.transform = 'rotate('+ getRandom([-35,35]) +'deg)'
   }
 }

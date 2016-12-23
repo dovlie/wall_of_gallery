@@ -52,8 +52,8 @@ function positionResort( index ){
   //  选定居中的图片
   elements[index].className += ' photo-stack-center'
   //  重置中心图片位置
-  elements[index].style.left = '50%';
-  elements[index].style.top = '50%';
+  elements[index].style.left = '';
+  elements[index].style.top = '';
   //  重置中心图片角度
   elements[index].style.transform = ''
   //  控制器切换

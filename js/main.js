@@ -125,9 +125,9 @@ function positionResort( index ){
       elements[m].style.left = (centerPoint.left + cosX - photoWidth/2) + 'px';
       elements[m].style.top = (centerPoint.top + sinY - photoHeight/2) + 'px'
       //  旋转角度的问题
-      elements[m].style.MozTransform = 'rotate('+ randomAngle +'deg)'
-      elements[m].style.WebkitTransform = 'rotate('+ randomAngle +'deg)'
-      elements[m].style.msTransform = 'rotate('+ randomAngle +'deg)'
+      elements[m].style.MozTransform = 'rotate('+ (randomAngle + 90) +'deg)'
+      elements[m].style.WebkitTransform = 'rotate('+ (randomAngle + 90) +'deg)'
+      elements[m].style.msTransform = 'rotate('+ (randomAngle + 90) +'deg)'
       elements[m].style.transform = 'rotate('+ (randomAngle + 90) +'deg)'
     }
   }

@@ -120,6 +120,7 @@ function positionResort( index ){
       randomAngle = getRandom([0,360]);
       cosX = Math.cos(randomAngle*Math.PI/180)*radius
       sinY = Math.sin(randomAngle*Math.PI/180)*radius
+      console.log(elements[m].id + ':'+cosX+','+sinY+','+randomAngle)
       //  left为中心点位置加相对圆心的X轴偏移量，还要再减去一半自身的宽度，这样视觉上两边就对等了，top原理同left
       elements[m].style.left = (centerPoint.left + cosX - photoWidth/2) + 'px';
       elements[m].style.top = (centerPoint.top + sinY - photoHeight/2) + 'px'
@@ -127,7 +128,7 @@ function positionResort( index ){
       elements[m].style.MozTransform = 'rotate('+ randomAngle +'deg)'
       elements[m].style.WebkitTransform = 'rotate('+ randomAngle +'deg)'
       elements[m].style.msTransform = 'rotate('+ randomAngle +'deg)'
-      elements[m].style.transform = 'rotate('+ randomAngle +'deg)'
+      elements[m].style.transform = 'rotate('+ (randomAngle + 90) +'deg)'
     }
   }
 }

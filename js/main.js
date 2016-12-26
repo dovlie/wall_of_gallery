@@ -69,24 +69,31 @@ function positionResort( index ){
       wrapHeight = container.offsetHeight;
   //  左边位置限定
   var leftPosition = {
-    left: [0 - photoWidth/2, wrapWidth/2 - photoWidth/2*3],//  [最小值,最大值]
+    // left: [0 - photoWidth/2, wrapWidth/2 - photoWidth/2*3],//  [最小值,最大值]
+    left: [0 - photoWidth/2, wrapWidth/2 - photoWidth/2],//  增加中间图片上半部分两边的位置
     top: [0 - photoHeight/2, wrapHeight - photoHeight/2]
   }
   //  右边位置限定
   var rightPosition = {
-    left: [wrapWidth/2 + photoWidth/2, wrapWidth - photoWidth/2],//  [最小值,最大值]
+    // left: [wrapWidth/2 + photoWidth/2, wrapWidth - photoWidth/2],//  [最小值,最大值]
+    left: [wrapWidth/2, wrapWidth - photoWidth/2],//  增加中间图片上半部分两边的位置
     top: leftPosition.top,//  与左半部分高度一致
   }
   //  中间上边部分的两边特殊位置,待定
+  //  限定高度，当左边X轴大于wrapWidth/2 - photoWidth/2*3并小于最大值时，以及右边X轴大于最小值并且小于wrapWidth/2 + photoWidth/2
+  var specTop = [0 - photoHeight,0 - photoHeight/2]
+  var randomLeft,randomRight;
 
   elements.splice(index,1)//  去除中间图片的对象
   for (var j = 0,k = elements.length/2; j < elements.length; j++){
     if (j < k){// 左半部分图片位置
-      elements[j].style.left = getRandom(leftPosition.left) + 'px'
-      elements[j].style.top = getRandom(leftPosition.top) + 'px'
+      randomLeft = getRandom(leftPosition.left)
+      elements[j].style.left = randomLeft + 'px'
+      elements[j].style.top = randomLeft > (wrapWidth/2 - photoWidth/2*3) ? getRandom(specTop) + 'px': getRandom(leftPosition.top) + 'px';
     }else {
-      elements[j].style.left = getRandom(rightPosition.left) + 'px'
-      elements[j].style.top = getRandom(rightPosition.top) + 'px'
+      randomRight = getRandom(rightPosition.left)
+      elements[j].style.left = randomRight + 'px'
+      elements[j].style.top = randomRight < (wrapWidth/2 + photoWidth/2) ? getRandom(specTop) + 'px': getRandom(rightPosition.top) + 'px'
     }
     //  所有的元素角度随机度数为-35°到35°
     elements[j].style.MozTransform = 'rotate('+ getRandom([-35,35]) +'deg)'

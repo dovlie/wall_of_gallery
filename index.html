@@ -7,6 +7,10 @@
 </head>
 <body>
 <div class="container">
+  <div class="btn-type">
+    <button onclick="changeType('random')">散列画廊</button>
+    <button onclick="changeType('circle')">环形画廊</button>
+  </div>
   <div class="wrap">
     <!--photo start-->
     <div class="photo-stack" id="photo_{{index}}" onclick="turnPhoto({{index}})">

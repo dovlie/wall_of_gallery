@@ -2,6 +2,8 @@
  * Created by guojingfeng on 2016/12/20.
  */
 var data = mockData;
+var type = 'random';//  默认散列排布
+var globalIndex;//  保持中心图片状态
 
 //  通过类名和ID获取DOM对象的工具函数
 function g( string ) {
@@ -39,6 +41,7 @@ function positionResort( index ){
   var _elements = g('.photo-stack')
   var controllers = g('.nav-control')// 控制器
   var elements = [];//  图片数组对象
+  globalIndex = index
 
   for (var i = 0; i < _elements.length; i++){
     //  去除已有的居中类名、翻转类名   /\s*photo-stack-center\s*/  同时去除多余的空格
@@ -69,30 +72,63 @@ function positionResort( index ){
       wrapHeight = container.offsetHeight;
   //  左边位置限定
   var leftPosition = {
-    left: [0 - photoWidth/2, wrapWidth/2 - photoWidth/2*3],//  [最小值,最大值]
+    // left: [0 - photoWidth/2, wrapWidth/2 - photoWidth/2*3],//  [最小值,最大值]
+    left: [0 - photoWidth/2, wrapWidth/2 - photoWidth/2],//  增加中间图片上半部分两边的位置
     top: [0 - photoHeight/2, wrapHeight - photoHeight/2]
   }
   //  右边位置限定
   var rightPosition = {
-    left: [wrapWidth/2 + photoWidth/2, wrapWidth - photoWidth/2],//  [最小值,最大值]
+    // left: [wrapWidth/2 + photoWidth/2, wrapWidth - photoWidth/2],//  [最小值,最大值]
+    left: [wrapWidth/2, wrapWidth - photoWidth/2],//  增加中间图片上半部分两边的位置
     top: leftPosition.top,//  与左半部分高度一致
   }
   //  中间上边部分的两边特殊位置,待定
+  //  限定高度，当左边X轴大于wrapWidth/2 - photoWidth/2*3并小于最大值时，以及右边X轴大于最小值并且小于wrapWidth/2 + photoWidth/2
+  var specTop = [0 - photoHeight,0 - photoHeight/2]
+  var randomLeft,randomRight;
 
   elements.splice(index,1)//  去除中间图片的对象
-  for (var j = 0,k = elements.length/2; j < elements.length; j++){
-    if (j < k){// 左半部分图片位置
-      elements[j].style.left = getRandom(leftPosition.left) + 'px'
-      elements[j].style.top = getRandom(leftPosition.top) + 'px'
-    }else {
-      elements[j].style.left = getRandom(rightPosition.left) + 'px'
-      elements[j].style.top = getRandom(rightPosition.top) + 'px'
+  if (type == 'random'){
+    for (var j = 0; j < elements.length; j++){
+      if (Math.random() < 0.5){// 左半部分图片位置
+        randomLeft = getRandom(leftPosition.left)
+        elements[j].style.left = randomLeft + 'px'
+        elements[j].style.top = randomLeft > (wrapWidth/2 - photoWidth/2*3) ? getRandom(specTop) + 'px': getRandom(leftPosition.top) + 'px';
+      }else {
+        randomRight = getRandom(rightPosition.left)
+        elements[j].style.left = randomRight + 'px'
+        elements[j].style.top = randomRight < (wrapWidth/2 + photoWidth/2) ? getRandom(specTop) + 'px': getRandom(rightPosition.top) + 'px'
+      }
+      //  所有的元素角度随机度数为-35°到35°
+      elements[j].style.MozTransform = 'rotate('+ getRandom([-35,35]) +'deg)'
+      elements[j].style.WebkitTransform = 'rotate('+ getRandom([-35,35]) +'deg)'
+      elements[j].style.msTransform = 'rotate('+ getRandom([-35,35]) +'deg)'
+      elements[j].style.transform = 'rotate('+ getRandom([-35,35]) +'deg)'
     }
-    //  所有的元素角度随机度数为-35°到35°
-    elements[j].style.MozTransform = 'rotate('+ getRandom([-35,35]) +'deg)'
-    elements[j].style.WebkitTransform = 'rotate('+ getRandom([-35,35]) +'deg)'
-    elements[j].style.msTransform = 'rotate('+ getRandom([-35,35]) +'deg)'
-    elements[j].style.transform = 'rotate('+ getRandom([-35,35]) +'deg)'
+  }else {
+    //  环形图片路径，距离取中心图片中点为圆心，半径1.5倍photoWidth或者photoHeight，取决于大数,加的数值是预留空隙
+    var radius = photoWidth > photoHeight ? (photoWidth + 50): (photoHeight + 50);
+    //  中心点位置
+    var centerPoint = {
+      left: wrapWidth/2,
+      top: wrapHeight/2
+    }
+    var randomAngle;//  随机圆心角
+    var sinY,cosX;
+    for ( var m = 0; m < elements.length; m++){
+      //  利用三角函数公式获取元素相对圆心点X轴以及Y轴的位置,注意三角函数为弧度制
+      randomAngle = getRandom([0,360]);
+      cosX = Math.cos(randomAngle*Math.PI/180)*radius
+      sinY = Math.sin(randomAngle*Math.PI/180)*radius
+      //  left为中心点位置加相对圆心的X轴偏移量，还要再减去一半自身的宽度，这样视觉上两边就对等了，top原理同left
+      elements[m].style.left = (centerPoint.left + cosX - photoWidth/2) + 'px';
+      elements[m].style.top = (centerPoint.top + sinY - photoHeight/2) + 'px'
+      //  旋转角度的问题
+      elements[m].style.MozTransform = 'rotate('+ randomAngle +'deg)'
+      elements[m].style.WebkitTransform = 'rotate('+ randomAngle +'deg)'
+      elements[m].style.msTransform = 'rotate('+ randomAngle +'deg)'
+      elements[m].style.transform = 'rotate('+ randomAngle +'deg)'
+    }
   }
 }
 
@@ -127,4 +163,15 @@ function turnPhoto( index ) {
   }else {// 否则对图片进行居中并重新排布位置
     positionResort(index)
   }
+}
+/**
+ * 切换显示排布方式
+ * @param string
+ */
+function changeType(string) {
+  if (type == string ){
+    return
+  }
+  type = string
+  positionResort(globalIndex)
 }

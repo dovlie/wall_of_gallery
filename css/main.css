@@ -24,6 +24,33 @@ html,body {
   width: 100%;
   height: 580px;
 }
+.btn-type {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 5px 0;
+  width: 100%;
+  z-index: 999;
+  text-align: center;
+}
+.btn-type button {
+  padding: 0 5px;
+  height: 20px;
+  color: #fff;
+  letter-spacing: 1px;
+  background: #3385ff;
+  border: 0;
+  border-bottom: 1px solid #2d78f4;
+  outline: medium;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  cursor: pointer;
+}
+.btn-type button:hover {
+  background: #317ef3;
+  border-bottom: 1px solid #2868c8;
+  box-shadow: 1px 1px 1px #ccc;
+}
 .wrap {
   width: 100%;
   height: 100%;

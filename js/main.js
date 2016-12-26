@@ -85,8 +85,8 @@ function positionResort( index ){
   var randomLeft,randomRight;
 
   elements.splice(index,1)//  去除中间图片的对象
-  for (var j = 0,k = elements.length/2; j < elements.length; j++){
-    if (j < k){// 左半部分图片位置
+  for (var j = 0; j < elements.length; j++){
+    if (Math.random() < 0.5){// 左半部分图片位置
       randomLeft = getRandom(leftPosition.left)
       elements[j].style.left = randomLeft + 'px'
       elements[j].style.top = randomLeft > (wrapWidth/2 - photoWidth/2*3) ? getRandom(specTop) + 'px': getRandom(leftPosition.top) + 'px';
